@@ -1,0 +1,34 @@
+.pointer {
+    cursor: pointer;
+}
+
+.shadow-custom {
+    box-shadow: 0 0 10px 2px #bbb;
+  border-radius: 0.25rem;
+}
+
+.sub-page-enter-active {
+  animation: fadeIn .5s ease-in-out;
+}
+
+.sub-page-enter-leave {
+  animation: fadeOut .5s ease-in-out
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 100;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 100;
+  }
+  to {
+    opacity: 0;
+  }
+}

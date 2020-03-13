@@ -1,11 +1,16 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-white">
     <div class="container">
-      <router-link :to="{ name: user ? 'home' : 'welcome' }" class="navbar-brand">
-        {{ appName }}
-      </router-link>
+      <router-link :to="{ name: user ? 'home' : 'welcome' }" class="navbar-brand">{{ appName }}</router-link>
 
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarToggler"
+        aria-controls="navbarToggler"
+        aria-expanded="false"
+      >
         <span class="navbar-toggler-icon" />
       </button>
 
@@ -14,16 +19,92 @@
           <locale-dropdown />
           <!-- <li class="nav-item">
             <a class="nav-link" href="#">Link</a>
-          </li> -->
+          </li>-->
+        </ul>
+
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >IAM</a>
+            <div class="dropdown-menu">
+              <router-link
+                tag="li"
+                class="nav-item"
+                active-class="active ing-text"
+                :to="{name: 'iam.users'}"
+              >
+                <a class="nav-link">User List</a>
+              </router-link>
+              <router-link
+                tag="li"
+                class="nav-item"
+                active-class="active ing-text"
+                :to="{name: 'iam.users-new'}"
+              >
+                <a class="nav-link">Create User</a>
+              </router-link>
+            </div>
+          </li>
+          <!-- Backend MGMT -->
+          <li class="nav-item dropdown" v-if="$can(DISPLAY_BACKEND)">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >Backend MGMT</a>
+            <div class="dropdown-menu">
+              <router-link
+                v-if="$can(DISPLAY_CIRCLES)"
+                tag="li"
+                class="nav-item"
+                active-class="active ing-text"
+                :to="{name: 'backend.circles'}"
+              >
+                <a class="nav-link">Circles</a>
+              </router-link>
+              <router-link
+                v-if="$can(DISPLAY_SUPER_CIRCLES)"
+                tag="li"
+                class="nav-item"
+                active-class="active ing-text"
+                :to="{name: 'backend.super-circles'}"
+              >
+                <a class="nav-link">Super Circles</a>
+              </router-link>
+              <router-link
+                v-if="$can(DISPLAY_JUSTIFICATIONS)"
+                tag="li"
+                class="nav-item"
+                active-class="active ing-text"
+                :to="{name: 'backend.justifications'}"
+              >
+                <a class="nav-link">Justifications</a>
+              </router-link>
+            </div>
+          </li>
         </ul>
 
         <ul class="navbar-nav ml-auto">
           <!-- Authenticated -->
           <li v-if="user" class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-dark"
-               href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+            <a
+              class="nav-link dropdown-toggle text-dark"
+              href="#"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
             >
-              <img :src="user.photo_url" class="rounded-circle profile-photo mr-1">
+              <!-- <img :src="user.photo_url" class="rounded-circle profile-photo mr-1" /> -->
               {{ user.name }}
             </a>
             <div class="dropdown-menu">
@@ -42,14 +123,18 @@
           <!-- Guest -->
           <template v-else>
             <li class="nav-item">
-              <router-link :to="{ name: 'login' }" class="nav-link" active-class="active">
-                {{ $t('login') }}
-              </router-link>
+              <router-link
+                :to="{ name: 'login' }"
+                class="nav-link"
+                active-class="active"
+              >{{ $t('login') }}</router-link>
             </li>
             <li class="nav-item">
-              <router-link :to="{ name: 'register' }" class="nav-link" active-class="active">
-                {{ $t('register') }}
-              </router-link>
+              <router-link
+                :to="{ name: 'register' }"
+                class="nav-link"
+                active-class="active"
+              >{{ $t('register') }}</router-link>
             </li>
           </template>
         </ul>
@@ -59,8 +144,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import LocaleDropdown from './LocaleDropdown'
+import { mapGetters } from "vuex";
+import LocaleDropdown from "./LocaleDropdown";
+import * as Perm from "../plugins/permission-checker";
 
 export default {
   components: {
@@ -71,26 +157,28 @@ export default {
     appName: window.config.appName
   }),
 
-  computed: mapGetters({
-    user: 'auth/user'
-  }),
+  computed: {
+    ...mapGetters({
+      user: "auth/user"
+    })
+  },
 
   methods: {
-    async logout () {
+    async logout() {
       // Log out the user.
-      await this.$store.dispatch('auth/logout')
+      await this.$store.dispatch("auth/logout");
 
       // Redirect to login.
-      this.$router.push({ name: 'login' })
+      this.$router.push({ name: "login" });
     }
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
 .profile-photo {
   width: 2rem;
   height: 2rem;
-  margin: -.375rem 0;
+  margin: -0.375rem 0;
 }
 </style>

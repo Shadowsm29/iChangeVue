@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <messager-app></messager-app>
     <loading ref="loading" />
 
     <transition name="page" mode="out-in">
@@ -10,6 +11,7 @@
 
 <script>
 import Loading from './Loading'
+import Messager from "~/components/Messager"
 
 // Load layout components dynamically.
 const requireContext = require.context('~/layouts', false, /.*\.vue$/)
@@ -27,7 +29,8 @@ export default {
   el: '#app',
 
   components: {
-    Loading
+    Loading,
+    MessagerApp: Messager,
   },
 
   data: () => ({

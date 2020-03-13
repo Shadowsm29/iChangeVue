@@ -13,13 +13,13 @@
       </div>
 
       <!-- Email -->
-      <div class="form-group row">
+      <!-- <div class="form-group row">
         <label class="col-md-3 col-form-label text-md-right">{{ $t('email') }}</label>
         <div class="col-md-7">
           <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control" type="email" name="email">
           <has-error :form="form" field="email" />
         </div>
-      </div>
+      </div> -->
 
       <!-- Submit Button -->
       <div class="form-group row">
@@ -47,7 +47,7 @@ export default {
   data: () => ({
     form: new Form({
       name: '',
-      email: ''
+      // email: ''
     })
   }),
 
@@ -58,7 +58,7 @@ export default {
   created () {
     // Fill the form with user data.
     this.form.keys().forEach(key => {
-      this.form[key] = this.user[key]
+      this.form[key] = this.user[key];
     })
   },
 

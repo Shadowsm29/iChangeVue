@@ -2,25 +2,32 @@
 
 namespace App;
 
+use Webpatser\Uuid\Uuid;
 use App\Notifications\VerifyEmail;
 use App\Notifications\ResetPassword;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
 {
     use Notifiable;
+    use HasRoles;
+
+    protected $guard_name ='api';
+    protected $with = ["roles"];
+    protected $guarded = [];
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    // protected $fillable = [
+    //     'name', 'email', 'password',
+    // ];
 
     /**
      * The attributes that should be hidden for arrays.
