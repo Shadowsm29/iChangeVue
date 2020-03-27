@@ -20,6 +20,11 @@ class User extends Authenticatable implements JWTSubject //, MustVerifyEmail
     protected $with = ["roles"];
     protected $guarded = [];
 
+    public function manager()
+    {
+        return $this->belongsTo(User::class, "manager_id");
+    }
+
     /**
      * The attributes that are mass assignable.
      *

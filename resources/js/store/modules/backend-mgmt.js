@@ -126,9 +126,9 @@ export const actions = {
         })
     },
 
-    updateSuperCircle({ commit }, { id, name }) {
+    updateSuperCircle({ commit }, form) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/super-circles/${id}/update`, { name })
+            axios.post(`/api/super-circles/${form.id}/update`, form)
                 .then((res) => {
                     commit("updateSuperCircle", res.data);
                     handler.handleSuccessResponse("Super circle updated successfully", commit);
@@ -168,9 +168,9 @@ export const actions = {
         })
     },
 
-    addNewSuperCircle({ commit }, { name }) {
+    addNewSuperCircle({ commit }, form) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/super-circles/new`, { name })
+            axios.post(`/api/super-circles/new`, form)
                 .then((res) => {
                     commit("addNewSuperCircle", res.data);
                     handler.handleSuccessResponse("Super circle created successfully", commit);

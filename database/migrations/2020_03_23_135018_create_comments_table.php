@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSuperCirclesTable extends Migration
+class CreateCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateSuperCirclesTable extends Migration
      */
     public function up()
     {
-        Schema::create('super_circles', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name')->unique();
-            $table->string('head_of_id');
+        Schema::create('comments', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->integer('owner_id');
+            $table->uuid('idea_id');
+            $table->text('text');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateSuperCirclesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('super_circles');
+        Schema::dropIfExists('comments');
     }
 }

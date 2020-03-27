@@ -23,6 +23,52 @@
         </ul>
 
         <ul class="navbar-nav mr-auto">
+          <!-- Ideas -->
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >Ideas</a>
+            <div class="dropdown-menu">
+              <router-link
+                tag="li"
+                class="nav-item"
+                active-class="active ing-text"
+                :to="{name: 'ideas.create'}"
+              >
+                <a class="nav-link">Register Idea</a>
+              </router-link>
+              <router-link
+                tag="li"
+                class="nav-item"
+                active-class="active ing-text"
+                :to="{name: 'ideas.all'}"
+              >
+                <a class="nav-link">All ideas</a>
+              </router-link>
+              <router-link
+                tag="li"
+                class="nav-item"
+                active-class="active ing-text"
+                :to="{name: 'ideas.my-ideas'}"
+              >
+                <a class="nav-link">My ideas</a>
+              </router-link>
+              <router-link
+                tag="li"
+                class="nav-item"
+                active-class="active ing-text"
+                :to="{name: 'ideas.pending-at-me'}"
+              >
+                <a class="nav-link">Ideas pending at me</a>
+              </router-link>
+            </div>
+          </li>
+          <!-- IAM -->
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
@@ -39,15 +85,15 @@
                 active-class="active ing-text"
                 :to="{name: 'iam.users'}"
               >
-                <a class="nav-link">User List</a>
+                <a class="nav-link">Users</a>
               </router-link>
               <router-link
                 tag="li"
                 class="nav-item"
                 active-class="active ing-text"
-                :to="{name: 'iam.users-new'}"
+                :to="{name: 'iam.roles'}"
               >
-                <a class="nav-link">Create User</a>
+                <a class="nav-link">Roles</a>
               </router-link>
             </div>
           </li>

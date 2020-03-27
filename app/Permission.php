@@ -17,4 +17,8 @@ class Permission
     const DELETE_CIRCLES = "delete circles";
     const DELETE_SUPER_CIRCLES = "delete supercircles";
     const DELETE_JUSTIFICATIONS = "delete justifications";
+    const CREATE_IDEA = "create idea";
+    const SEE_ALL_IDEAS = "see all ideas";
+    const SEE_MY_IDEAS = "see my ideas";
+    const CREATE_IDEA_ADVANCED = "create advanced ideas";
 }

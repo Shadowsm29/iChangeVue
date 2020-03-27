@@ -15,5 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CircleSeeder::class);
         $this->call(JustificationSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(ChangeTypeSeeder::class);
+        $this->call(StatusSeeder::class);
     }
 }

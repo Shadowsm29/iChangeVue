@@ -18,9 +18,13 @@ class SuperCircleController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', Rule::unique("super_circles")->ignore($superCircle)],
+            "headOf" => "required|exists:users,id",
         ]);
 
-        $superCircle->update($request->only(["name"]));
+        $superCircle->update([
+            "name" => $request->name,
+            "head_of_id" => $request->headOf,
+        ]);
 
         return SuperCircle::where("id", $superCircle->id)->first();
     }
@@ -29,10 +33,12 @@ class SuperCircleController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', Rule::unique("super_circles")],
+            "headOf" => "required|exists:users,id",
         ]);
 
         $superCircle = SuperCircle::create([
             "name" => $request->name,
+            "head_of_id" => $request->headOf,
         ]);
 
         return SuperCircle::where("id", $superCircle->id)->first();;

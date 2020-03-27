@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSuperCirclesTable extends Migration
+class CreateStatusesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateSuperCirclesTable extends Migration
      */
     public function up()
     {
-        Schema::create('super_circles', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name')->unique();
-            $table->string('head_of_id');
+        Schema::create('statuses', function (Blueprint $table) {
+            $table->uuid('id');
+            $table->string('title')->unique();
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateSuperCirclesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('super_circles');
+        Schema::dropIfExists('statuses');
     }
 }

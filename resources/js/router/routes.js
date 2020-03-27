@@ -25,6 +25,12 @@ export default [
     ]
   },
 
+  { path: "/ideas/create", component: page("ideas/create.vue"), name: "ideas.create"},
+  { path: "/ideas/all", component: page("ideas/index.vue"), name: "ideas.all"},
+  { path: "/ideas/my-ideas", component: page("ideas/index.vue"), name: "ideas.my-ideas"},
+  { path: "/ideas/pending-at-me", component: page("ideas/index.vue"), name: "ideas.pending-at-me"},
+  { path: "/ideas/display/:id", component: page("ideas/display.vue"), name: "ideas.display"},
+
   {
     path: "/iam", component: page("iam/index.vue"), name: "iam.index",
     children: [
@@ -48,13 +54,34 @@ export default [
         path: "/backend/circles/edit/:id", component: page("backend/circles-edit.vue"), name: "backend.circles-edit",
         beforeEnter: checkPerm, meta: { permission: ["display circles", "edit circles"] }
       },
-      { path: "/backend/circles/new", component: page("backend/circles-edit.vue"), name: "backend.circles-new", beforeEnter: checkPerm, meta: { permission: "create circles" } },
-      { path: "/backend/super-circles", component: page("backend/super-circles.vue"), name: "backend.super-circles" },
-      { path: "/backend/super-circles/edit/:id", component: page("backend/super-circles-edit.vue"), name: "backend.super-circles-edit" },
-      { path: "/backend/super-circles/new", component: page("backend/super-circles-edit.vue"), name: "backend.super-circles-new" },
-      { path: "/backend/justifications", component: page("backend/justifications.vue"), name: "backend.justifications" },
-      { path: "/backend/justifications/edit/:id", component: page("backend/justifications-edit.vue"), name: "backend.justifications-edit" },
-      { path: "/backend/justifications/new", component: page("backend/justifications-edit.vue"), name: "backend.justifications-new" },
+      {
+        path: "/backend/circles/new", component: page("backend/circles-edit.vue"), name: "backend.circles-new",
+        beforeEnter: checkPerm, meta: { permission: "create circles" }
+      },
+      {
+        path: "/backend/super-circles", component: page("backend/super-circles.vue"), name: "backend.super-circles",
+        beforeEnter: checkPerm, meta: { permission: "display supercircles" }
+      },
+      {
+        path: "/backend/super-circles/edit/:id", component: page("backend/super-circles-edit.vue"), name: "backend.super-circles-edit",
+        beforeEnter: checkPerm, meta: { permission: ["display supercircles", "edit supercircles"] }
+      },
+      {
+        path: "/backend/super-circles/new", component: page("backend/super-circles-edit.vue"), name: "backend.super-circles-new",
+        beforeEnter: checkPerm, meta: { permission: "create supercircles" }
+      },
+      {
+        path: "/backend/justifications", component: page("backend/justifications.vue"), name: "backend.justifications",
+        beforeEnter: checkPerm, meta: { permission: "display justifications" }
+      },
+      {
+        path: "/backend/justifications/edit/:id", component: page("backend/justifications-edit.vue"), name: "backend.justifications-edit",
+        beforeEnter: checkPerm, meta: { permission: ["display justifications", "edit justifications"] }
+      },
+      {
+        path: "/backend/justifications/new", component: page("backend/justifications-edit.vue"), name: "backend.justifications-new",
+        beforeEnter: checkPerm, meta: { permission: "create justifications" }
+      },
     ]
   },
 

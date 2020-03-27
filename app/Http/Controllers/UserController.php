@@ -10,12 +10,12 @@ class UserController extends Controller
 {
     public function fetchUserList()
     {
-        return User::all();
+        return User::with(["manager"])->get();
     }
 
     public function fetchUser(User $user)
     {
-        return $user;
+        return User::where("id", $user->id)->with(["manager"])->firstOrFail();
     }
 
     public function createUser(Request $request)
@@ -25,13 +25,15 @@ class UserController extends Controller
             "email" => "required|email",
             "password" => "required|string",
             "passwordRepeat" => "required|same:password",
-            "role" => "required|exists:roles,id"
+            "role" => "required|exists:roles,id",
+            "manager" => "required|exists:users,id"
         ]);
 
         $user = User::create([
             "name" => $request["name"],
             "email" => $request["email"],
             "password" => Hash::make($request["password"]),
+            "manager_id" => $request->manager,
         ]);
 
         $user->assignRole($request->role);
@@ -46,12 +48,14 @@ class UserController extends Controller
             "email" => "required|email",
             "password" => "nullable|string",
             "passwordRepeat" => "nullable|same:password",
-            "role" => "required|exists:roles,id"
+            "role" => "required|exists:roles,id",
+            "manager" => "required|exists:users,id"
         ]);
 
         $user->update([
             "name" => $request["name"],
             "email" => $request["email"],
+            "manager_id" => $request->manager,
         ]);
 
         $user->syncRoles([$request["role"]]);

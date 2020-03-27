@@ -1,7 +1,7 @@
 <template>
   <div class="unauthorized">
     <div class="message">
-      <h1>401</h1>
+      <h1>403</h1>
       <h5>Unauthorized</h5>
       <p>This resource is not allowed for you!</p>
     </div>

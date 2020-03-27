@@ -14,7 +14,15 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="permissions">Permissions:</label>
-              <select
+              <multiselect
+                :options="permissions"
+                label="name"
+                track-by="id"
+                :multiple="true"
+                :close-on-select="false"
+                v-model="form.permissions"
+              ></multiselect>
+              <!-- <select
                 class="form-control"
                 name="permissions"
                 id="permissions"
@@ -26,7 +34,7 @@
                   :key="permission.id"
                   :value="permission.id"
                 >{{ permission.name }}</option>
-              </select>
+              </select>-->
             </div>
           </div>
         </div>
@@ -89,9 +97,10 @@ export default {
         .get("/api/roles/" + this.$route.params.id)
         .then(({ data }) => {
           this.form.name = data.name;
-          this.form.permissions = data.permissions.map(p => {
-            return p.id;
-          });
+          this.form.permissions = data.permissions;
+          // .map(p => {
+          //   return p.id;
+          // });
         })
         .catch(() => {
           alert("Something went wrong while loading role");
@@ -125,9 +134,13 @@ export default {
   methods: {
     submit() {
       this.savingData = true;
+
+      let newForm = Object.assign({}, this.form);
+      newForm.permissions = newForm.permissions.map(p => p.id);
+
       if (this.mode == "edit") {
         axios
-          .post("/api/roles/" + this.$route.params.id + "/update", this.form)
+          .post("/api/roles/" + this.$route.params.id + "/update", newForm)
           .then(({ data }) => {
             handler.handleSuccessResponse("Role updated successfully");
             this.savingData = false;
@@ -138,7 +151,7 @@ export default {
           });
       } else {
         axios
-          .post("/api/roles/new", this.form)
+          .post("/api/roles/new", newForm)
           .then(({ data }) => {
             handler.handleSuccessResponse("Role created successfully");
             this.savingData = false;
@@ -153,3 +166,4 @@ export default {
   }
 };
 </script>
+

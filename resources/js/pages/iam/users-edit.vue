@@ -15,6 +15,12 @@
           <input-app label="Password" type="password" v-model="form.password" />
           <input-app label="Repeat Password" type="password" v-model="form.passwordRepeat" />
           <select-app label="Role" :options="roles" v-model="form.role" />
+          <div class="col-md-6">
+            <div class="form-group">
+              <Label>Line Manager:</Label>
+              <vue-multiselect-app :options="users" label="name" track-by="id" v-model="form.manager" />
+            </div>
+          </div>
         </div>
 
         <div class="text-center">
@@ -35,12 +41,14 @@ import Select from "~/components/Select";
 import Spinner from "~/components/Spinner";
 import axios from "axios";
 import * as handler from "~/plugins/response-handler";
+import VueMultiselect from "vue-multiselect";
 
 export default {
   components: {
     InputApp: Input,
     SelectApp: Select,
-    SpinnerApp: Spinner
+    SpinnerApp: Spinner,
+    VueMultiselectApp: VueMultiselect
   },
 
   data() {
@@ -51,9 +59,11 @@ export default {
         email: "",
         password: "",
         passwordRepeat: "",
-        role: ""
+        role: "",
+        manager: null,
       },
       roles: [],
+      users: [],
       loadingData: true,
       savingData: false
     };
@@ -71,8 +81,27 @@ export default {
     if (this.$route.name === "iam.users-edit") this.mode = "edit";
     else this.mode = "new";
 
+    let rolesPromise = axios
+      .get("/api/roles")
+      .then(({ data }) => {
+        this.roles = data;
+      })
+      .catch(() => {
+        alert("Something went wrong while loading roles");
+      });
+
+    let usersPromise = axios
+      .get("/api/users")
+      .then(({ data }) => {
+        this.users = data;
+      })
+      .catch(() => {
+        alert("Something went wrong while loading users");
+      });
+
+    let userPromise;
     if (this.mode == "edit") {
-      let usersPromise = axios
+      userPromise = axios
         .get("/api/users/" + this.$route.params.id)
         .then(({ data }) => {
           console.log("created -> data", data);
@@ -81,42 +110,29 @@ export default {
           this.form.password = data.password;
           this.form.passwordRepeat = data.passwordRepeat;
           this.form.role = data.roles[0].id;
+          this.form.manager = data.manager;
         })
         .catch(() => {
-          alert("Something went wrong while loading users");
-        });
-
-      let rolesPromise = axios
-        .get("/api/roles")
-        .then(({ data }) => {
-          this.roles = data;
-        })
-        .catch(() => {
-          alert("Something went wrong while loading");
-        });
-
-      Promise.all([usersPromise, rolesPromise]).then(() => {
-        this.loadingData = false;
-      });
-    } else {
-      axios
-        .get("/api/roles")
-        .then(({ data }) => {
-          this.roles = data;
-          this.loadingData = false;
-        })
-        .catch(() => {
-          alert("Something went wrong while loading roles");
+          alert("Something went wrong while loading selected user");
         });
     }
+
+    Promise.all([userPromise, usersPromise, rolesPromise]).then(() => {
+      this.loadingData = false;
+    });
   },
 
   methods: {
     submit() {
       this.savingData = true;
+
+      let newForm = Object.assign({}, this.form);
+      newForm.manager = newForm.manager.id;
+      console.log("submit -> newForm.manager", newForm.manager)
+
       if (this.mode == "edit") {
         axios
-          .post("/api/users/" + this.$route.params.id + "/update", this.form)
+          .post("/api/users/" + this.$route.params.id + "/update", newForm)
           .then(({ data }) => {
             this.name = data.name;
             this.email = data.email;
@@ -133,7 +149,7 @@ export default {
           });
       } else {
         axios
-          .post("/api/users/new", this.form)
+          .post("/api/users/new", newForm)
           .then(({ data }) => {
             handler.handleSuccessResponse(
               "User created successfully",
